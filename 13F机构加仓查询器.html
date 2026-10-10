@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f5f7" />
+    <title>13F 增仓雷达</title>
+    <link rel="stylesheet" href="./public/styles.css" />
+    <script>
+      if (location.protocol === 'file:') location.replace('http://127.0.0.1:3000/');
+    </script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="13F 增仓雷达首页"><span class="brand-mark">↑</span><span>13F 增仓雷达</span></a>
+        <div class="header-note"><span class="live-dot"></span>SEC EDGAR 官方披露</div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <p class="eyebrow">INSTITUTIONAL INTELLIGENCE</p>
+          <h1>看见机构<br /><span>正在加仓什么。</span></h1>
+          <p class="hero-copy">追踪指定机构的 13F-HR 文件，按最新 <em>Reporting for</em> 与前次申报期对比，以新增持股数排序。</p>
+          <div class="hero-actions">
+            <button id="query-button" class="primary-button"><span class="button-label">查询 SEC 最新披露</span><span class="button-arrow">→</span></button>
+            <span id="query-status" class="query-status">尚未查询</span>
+          </div>
+          <form id="sec-config" class="sec-config" hidden>
+            <div><strong>首次连接 SEC</strong><span>填写联系邮箱，仅作为 SEC 请求的身份标识；只保存在本次服务运行内。</span></div>
+            <label class="sr-only" for="sec-email">联系邮箱</label>
+            <input id="sec-email" type="email" autocomplete="email" placeholder="you@company.com" required />
+            <button type="submit">保存并查询</button>
+          </form>
+          <p class="fine-print">数据为季度末持仓快照，非实时交易；仅供研究，不构成投资建议。</p>
+        </section>
+
+        <section id="summary" class="summary-grid" aria-live="polite">
+          <article class="metric-card"><span>追踪名单</span><strong>15</strong><small>14 个 13F 申报主体</small></article>
+          <article class="metric-card"><span>排序方式</span><strong>Top 5</strong><small>按绝对新增股数</small></article>
+          <article class="metric-card"><span>重点追踪</span><strong>05</strong><small>RKLB、SK 海力士、MU、NVDA、谷歌</small></article>
+        </section>
+
+        <section class="section institution-section">
+          <div class="section-heading"><div><p class="eyebrow">LATEST FILINGS</p><h2>机构加仓榜</h2></div><p id="period-note" class="section-description">查询后显示各机构实际可用的最近两个 Reporting for 日期。</p></div>
+          <div id="institution-list" class="institution-list"><div class="empty-state">点击“查询 SEC 最新披露”开始读取官方 13F 数据。</div></div>
+        </section>
+
+        <section class="section consensus-section">
+          <div class="section-heading"><div><p class="eyebrow">CROSS-INSTITUTION</p><h2>机构共识加仓</h2></div><p class="section-description">按加仓机构数优先排序，再以合计新增股数打破并列。</p></div>
+          <div id="consensus-list" class="consensus-list"><div class="empty-state">等待查询结果。</div></div>
+        </section>
+
+        <section class="section focus-section">
+          <div class="section-heading"><div><p class="eyebrow">FOCUS LIST</p><h2>重点标的</h2></div><p class="section-description">加仓与减仓均基于同一机构相邻两个申报期的持股数差额。</p></div>
+          <div id="focus-grid" class="focus-grid"><div class="empty-state">等待查询结果。</div></div>
+        </section>
+
+        <section class="methodology">
+          <div><p class="eyebrow">METHODOLOGY</p><h2>可追溯，而非黑箱。</h2></div>
+          <div class="methodology-copy"><p>每个机构选择最新报告期的最终 13F-HR / 13F-HR/A，并与其前一个实际申报期比较；“近一年持股”展示最近五个实际 Reporting for。 同一份表内的同证券行会在计算前合并。</p><p>跨期匹配以 CUSIP、Put/Call 与持仓单位为主键；发行人名称与类别仅作展示，因此名称格式变化不会影响计算。Google 将按发行人名称归入重点观察；SK 海力士以申报表中的名称匹配。</p></div>
+        </section>
+      </main>
+
+      <footer><span>来源：U.S. Securities and Exchange Commission · EDGAR</span><span>13F Accumulation Monitor</span></footer>
+    </div>
+    <template id="loading-template"><div class="loading-line"><span></span><span></span><span></span></div></template>
+    <script src="./public/app.js"></script>
+  </body>
+</html>
